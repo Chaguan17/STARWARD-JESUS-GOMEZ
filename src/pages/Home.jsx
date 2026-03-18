@@ -1,16 +1,32 @@
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+// src/pages/Home.jsx
+import React, { useEffect } from "react";
+import { useGlobalReducer } from "../store.jsx";
+import Card from "../components/Card.jsx";
 
-export const Home = () => {
+const Home = () => {
+  const { store, actions } = useGlobalReducer();
 
-  const {store, dispatch} =useGlobalReducer()
+  useEffect(() => { actions.loadData(); }, []);
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-		</div>
-	);
-}; 
+  if (store.loading) return <p>Cargando...</p>;
+  if (store.error) return <p>{store.error}</p>;
+
+  const categories = ["people", "planets", "vehicles"];
+
+  return (
+    <div className="container">
+      {categories.map(cat => (
+        <div key={cat}>
+          <h2>{cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>
+          <div className="d-flex overflow-auto">
+            {store[cat]?.map(item => (
+              <Card key={item.uid} item={item} category={cat} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Home;
