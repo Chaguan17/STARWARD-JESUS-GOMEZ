@@ -27,7 +27,6 @@ const fetchListWithDetails = (category) => {
     });
 };
 
-// API básica pero rápida
 export const api = {
   getAll: () => {
     return Promise.all([

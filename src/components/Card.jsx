@@ -1,4 +1,3 @@
-// src/components/Card.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalReducer } from "../store.jsx";
